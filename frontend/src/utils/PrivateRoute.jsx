@@ -11,7 +11,7 @@ const PrivateRoute = ({ children }) => {
     return <Navigate to="/login" />;
   }
 
-  return children;   // dashboard  route= "/"
+  return children;   
 };
 
 PrivateRoute.propTypes = {

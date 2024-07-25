@@ -104,7 +104,6 @@ const googleLogin = async (req, res) => {
 };
 
 const googleCallback = (req, res) => {
-    // Successful authentication, redirect home.
     res.redirect(process.env.CLIENT_URL);
 };
 

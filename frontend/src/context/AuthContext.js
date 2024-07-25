@@ -19,36 +19,41 @@ export const AuthProvider = ({ children }) => {
     try {
       const response = await axios.post('/api/auth/login', loginData);
       console.log("login-response", response)
-      Cookies.set('token', response.data.token);
+      // Cookies.set('token', response.data.token);
+      Cookies.set('token', response.data.token, { path: '/' });
       setUser(response.data.user);
       setIsAuthenticated(true);
+      window.alert("login successfull") ; 
       navigate('/');
     } catch (error) {
       console.error('Login error', error);
     }
   };
-
-  useEffect(() => {
-    const checkAuthStatus = async () => {
-      const token = Cookies.get('token');
-      if (token) {
-        try {
-          const response = await axios.get('/api/auth/me', {
-            headers: {
-              Authorization: `Bearer ${token}`
-            }
-          });
-          setUser(response.data);
-          setIsAuthenticated(true);
-          navigate('/');
-        } catch (error) {
-          console.error('Failed to authenticate token', error);
-          navigate('/login');
-        }
-      } else {
+  
+  const checkAuthStatus = async () => {
+    const token = Cookies.get('token'); 
+     console.log("token",token);
+    if (token) {
+      try {
+        const response = await axios.get('/api/auth/me', {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        setUser(response.data);
+        setIsAuthenticated(true);
+        navigate('/');
+      } catch (error) {
+        console.error('Failed to authenticate token', error);
+        window.alert(error);
         navigate('/login');
       }
-    };
+    } else {
+      navigate('/login');
+    }
+  };
+
+  useEffect(() => {
     checkAuthStatus();
   }, []);
 
@@ -57,7 +62,8 @@ export const AuthProvider = ({ children }) => {
     try {
       const response = await axios.post('/api/auth/register', registerData);
       console.log("register-response", response)
-      Cookies.set('token', response.data.user);
+      // Cookies.set('token', response.data.user);
+      Cookies.set('token', response.data.token, { path: '/' });
       setUser(response.data.token);
       setIsAuthenticated(true);
       setIsRegister(true)
@@ -69,7 +75,8 @@ export const AuthProvider = ({ children }) => {
 
 
   const logout = () => {
-    Cookies.remove('token');
+    // Cookies.remove('token');
+    Cookies.remove('token', { path: '/' });
     setUser(null);
     setIsAuthenticated(false);
     setIsRegister(false)

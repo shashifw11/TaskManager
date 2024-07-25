@@ -1,4 +1,3 @@
-// routes/authRoutes.js
 const express = require('express');
 const { registerUser, loginUser, googleLogin,googleCallback } = require('../controllers/authController');
 const router = express.Router();
@@ -17,11 +16,6 @@ router.get(
     failureRedirect: '/login/failed',
   })
 );
-
-// router.get('/google/callback', passport.authenticate('google', { failureRedirect: '/login/failed' }), googleCallback);
-// router.get('/login/success', googleLogin);
-// router.get('/login/failed', (req, res) => res.status(401).json({ error: true, message: 'Login failure' }));
-
 
 module.exports = router;
 
