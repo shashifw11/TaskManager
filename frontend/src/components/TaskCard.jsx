@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const TaskCard = ({ task }) => {
+const TaskCard = ({ task }) => { 
+    console.log("task",task);
   const handleDragStart = e => {
     e.dataTransfer.setData('taskId', task.id);
   };
@@ -20,7 +21,7 @@ const TaskCard = ({ task }) => {
       <div>
       <h3 className="text-xl font-semibold">{capitalizeFirstLetter(task.title)}</h3>
       <p>{capitalizeFirstLetter(task.description)}</p>
-      <p>CreatedAt</p>
+      {/* <p>CreatedAt : {task.updatedAt}</p> */}
       </div>
       
       <div className="flex justify-end">

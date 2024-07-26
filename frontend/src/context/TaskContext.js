@@ -25,7 +25,7 @@ export const TaskProvider = ({ children }) => {
         }
       });
       if (response.data && response.data.length > 0) {
-        setTasks(response.data);
+        setTasks([...tasks, response.data]);
       } else {
         setTasks([]); 
       }

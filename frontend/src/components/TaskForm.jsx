@@ -38,6 +38,7 @@ const TaskForm = ({ columnId, addTask }) => {
         onChange={handleChange}
         placeholder="Description"
         className="p-2 border rounded mb-2 w-full"
+        required
       />
       <button type="submit" className="bg-blue-500 text-white p-2 rounded">
         Add Task
