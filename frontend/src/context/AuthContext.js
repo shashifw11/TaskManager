@@ -21,12 +21,12 @@ export const AuthProvider = ({ children }) => {
       const response = await axios.post('/api/auth/login', loginData);
       console.log("login-response", response)
       Cookies.set('token', response.data.token, { expires: 1, path: '/'}); 
-      //console.log("Token from Cookies:", Cookies.get('token', { path: '/' })  );
       setUser(response.data.user);
       setIsAuthenticated(true);
       navigate('/');
     } catch (error) {
       console.error('Login error', error);
+      alert(error.response.data.msg);
     }
   };
   

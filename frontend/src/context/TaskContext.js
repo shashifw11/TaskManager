@@ -66,8 +66,33 @@ export const TaskProvider = ({ children }) => {
     ));
   };
 
+  const deleteTask = async (id) => { 
+    console.log("TaskContext-deleteId", id);
+    const token = Cookies.get('token', { path: '/' });
+    if (!token) {
+      console.error('No token found in cookies');
+      return;
+    }
+    try {
+      await axios.delete(`/api/tasks/${id}`, {  
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      setTasks(tasks.filter(task => task._id !== id));
+    } catch (error) {
+      console.error('Failed to delete task', error);
+    }
+  };
+  
+
+  const editTask = async() => {
+  
+  }  
+
+
   return (
-    <TaskContext.Provider value={{ tasks, columns, addTask, moveTask }}>
+    <TaskContext.Provider value={{ tasks, columns, addTask, moveTask , editTask , deleteTask}}>
       {children}
     </TaskContext.Provider>
   );

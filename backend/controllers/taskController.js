@@ -24,6 +24,7 @@ exports.getTasks = async (req, res) => {
     }
 };
 
+
 exports.updateTask = async (req, res) => {
     const { title, description, status } = req.body; 
     console.log("taskUpdate-req.body", req.body);
@@ -43,13 +44,16 @@ exports.updateTask = async (req, res) => {
 };
 
 exports.deleteTask = async (req, res) => { 
-    console.log("taskdelete-req.body", req.body);
-    try {
-        const task = await Task.findById(req.params.id);
+    console.log("req.params.id",req.params.id); 
+    try { 
+        const task = await Task.findById(req.params.id); 
+          console.log("delete-task",task);
         if (!task) {
             return res.status(404).json({ msg: 'Task not found' });
         }
-        await task.remove();
+        const response =  await Task.findByIdAndDelete(req.params.id);
+         console.log("delete-response", response);
+
         res.json({ msg: 'Task removed' });
     } catch (err) {
         res.status(500).json({ msg: 'Server error' });
