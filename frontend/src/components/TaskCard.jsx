@@ -19,7 +19,7 @@ const TaskCard = ({ task }) => {
     if (!word) return '';
     return word.charAt(0).toUpperCase() + word.slice(1);
   }
-
+ 
   const handleDelete = () => {
     console.log("taskCard-delete", task._id)
     deleteTask(task._id);
