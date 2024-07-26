@@ -42,8 +42,8 @@ const TaskDetails = () => {
                     <h2 className = "text-2xl mt-6 ml-4">{cardDetails.title}</h2>
                     <p className = "text-1xl mt-4 ml-4">{cardDetails.description}</p>
                     <p className = "text-1xl mt-2 ml-4">{cardDetails.column}</p>
-                    <p className = "text-1xl mt-2 ml-4">{new Date(cardDetails.createdAt).toLocaleString()}</p>
-                    <p className = "text-1xl mt-2 ml-4">{new Date(cardDetails.updatedAt).toLocaleString()}</p>
+                    <p className = "text-1xl mt-2 ml-4">createdAt:{" "}{new Date(cardDetails.createdAt).toLocaleString()}</p>
+                    <p className = "text-1xl mt-2 ml-4">updatedAt:{" "}{new Date(cardDetails.updatedAt).toLocaleString()}</p>
                     <button onClick= {handleClose} className = "bg-blue-500 text-white font-semibold rounded-md py-3 px-8 mx-[80%]">Close</button>
                 </div>
             ) : (

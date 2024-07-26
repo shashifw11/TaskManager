@@ -6,33 +6,41 @@ import PropTypes from 'prop-types';
 import Cookies from 'js-cookie';
 import 'react-toastify/dist/ReactToastify.css';
 
+
 const AuthContext = createContext();
  
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isRegister, setIsRegister] = useState(false);
   const [user, setUser] = useState(null);
-  const navigate = useNavigate();
+  const [loading, setLoading] = useState(true); // New loading state
+
+  const navigate = useNavigate(); 
+
+  const setToken = (token)=>{ 
+      console.log("setToken" , token);
+    Cookies.set('token', token, { expires: 1, path: '/'});
+  }
 
   console.log({ "isRegister": isRegister, "isAuthenticated": isAuthenticated, "user": user })
 
-  const login = async (loginData) => {
+  const login = async (loginData) => { 
+    checkAuthStatus()
     try {
       const response = await axios.post('/api/auth/login', loginData);
       console.log("login-response", response)
-      Cookies.set('token', response.data.token, { expires: 1, path: '/'}); 
-      setUser(response.data.user);
+      setToken(response.data.token)
+      setUser(response.data.token);
       setIsAuthenticated(true);
       navigate('/');
     } catch (error) {
       console.error('Login error', error);
-      alert(error.response.data.msg);
     }
   };
   
   const checkAuthStatus = async () => {
-    const token = Cookies.get('token');   // undefined
-     console.log("get-token",token);
+    const token = Cookies.get('token');  // initially there is no token stored in cookies so request send without token
+    console.log("get-token-from-cookies", token);
     if (token) {
       try {
         const response = await axios.get('/api/auth/me', {
@@ -42,15 +50,14 @@ export const AuthProvider = ({ children }) => {
         });
         setUser(response.data);
         setIsAuthenticated(true);
-        navigate('/');
       } catch (error) {
         console.error('Failed to authenticate token', error);
-        window.alert(error);
-        navigate('/login');
+        Cookies.remove('token', { path: '/' });
       }
     } else {
-      navigate('/login');
+      Cookies.remove('token', { path: '/' });
     }
+    setLoading(false); // Set loading to false after checking auth status
   };
 
   useEffect(() => {
@@ -62,24 +69,29 @@ export const AuthProvider = ({ children }) => {
     try {
       const response = await axios.post('/api/auth/register', registerData);
       console.log("register-response", response)
-      Cookies.set('token', response.data.token, { expires: 1, path: '/'}); 
+      setToken(response.data.token) 
       setUser(response.data.token);
-      setIsAuthenticated(true);
+      //setIsAuthenticated(true);
       setIsRegister(true)
-      navigate('/');
+      navigate('/login');
     } catch (error) {
       console.error('Registration error', error);
     }
   };
 
 
-  const logout = () => {
+  const logout = () => { 
+    console.log("logout and token remove")
     Cookies.remove('token', { path: '/' });
     setUser(null);
     setIsAuthenticated(false);
     setIsRegister(false)
     navigate('/login');
   };
+
+  if (loading) {
+    return <div className = "flex items-center justify-center">Loading...</div>; 
+  }
 
   return (
     <AuthContext.Provider value={{ user, login, register, logout, isAuthenticated, isRegister }}>

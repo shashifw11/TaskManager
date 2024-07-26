@@ -2,12 +2,16 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import Cookies from 'js-cookie';
+import { useAuth } from './AuthContext';
 
 const TaskContext = createContext();
 
 export const TaskProvider = ({ children }) => {
   const [tasks, setTasks] = useState([]); 
+  const {isAuthenticated} = useAuth() 
+
    console.log("tasks",tasks);
+   console.log("isAuthenticated",isAuthenticated);
 
   const columns = [
     { id: 'todo', name: 'To Do' },
@@ -36,7 +40,10 @@ export const TaskProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    fetchTasks();
+    if(isAuthenticated){ // this is runs only when authirization is done and first mount is happen and get all the task to that user from database and display in task section.
+      console.log("fetch task Runs");
+      fetchTasks();
+    }
   }, []);
 
 

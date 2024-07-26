@@ -3,7 +3,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 const Navbar = () => {
-  const { user, login, register, logout, isAuthenticated , isRegister } = useAuth();
+  const {logout, isAuthenticated , isRegister } = useAuth();
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -24,7 +24,7 @@ const Navbar = () => {
       <div className="container mx-auto flex justify-between items-center">
         <Link to="/" className="text-white text-lg">Task Manager</Link>
         <div>
-          {isAuthenticated  || isRegister ? (
+          {isAuthenticated  && isRegister ? (
             <button
               className="text-white bg-red-500 px-4 py-1 rounded-md"
               onClick={logout}
