@@ -9,6 +9,7 @@ import { AuthProvider } from './context/AuthContext';
 import { TaskProvider } from './context/TaskContext';
 import { ToastContainer, toast } from 'react-toastify';
 import './styles/tailwind.css'; 
+import TaskDetails from './components/TaskDetails/TaskDetails';
 
 
 const App = () => {
@@ -20,6 +21,7 @@ const App = () => {
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path = "/:id" element = {<TaskDetails/>}/>
              <Route path="/" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
           </Routes>
        </TaskProvider>

@@ -5,11 +5,12 @@ const router = express.Router();
 
 router.use(authMiddleware);
 
-router.get('/', getTasks);
-router.post('/', authMiddleware , createTask);
-router.put('/:id', updateTask);
+router.get('/', getTasks);   
+router.post('/', authMiddleware , createTask);  
+router.put('/:id', updateTask);        
 router.delete('/:id', deleteTask);
 
 module.exports = router;
+
 
 
