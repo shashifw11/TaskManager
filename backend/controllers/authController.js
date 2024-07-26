@@ -5,6 +5,12 @@ const config = require('config');
 
 console.log("JWT Secret:", config.get('jwtSecret'));
 
+const generateToken = (user) => {
+    return jwt.sign({ user: { id: user.id } }, process.env.JWT_SECRET, {
+      expiresIn: '1h', // Set the expiration time as needed
+    });
+  };
+
 const registerUser = async (req, res) => {
     const { firstName, lastName, email, password, conformPassword } = req.body;
     console.log("registerUser-req.body", req.body);
@@ -65,19 +71,16 @@ const loginUser = async (req, res) => {
         }
 
         const payload = { user: { id: user.id } };
+        const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
+         res.json({ token });
 
-        //const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
-        jwt.sign(
-            payload,
-            config.get('jwtSecret'),
-            { expiresIn: 3600 },
-            (err, token) => {
-                if (err) throw err;
-                res.cookie('token', token, { httpOnly: true });
-                res.json({ token });
-            }
-        );
-        //  res.json({ token });
+        // jwt.sign( payload, config.get('jwtSecret'), { expiresIn: 3600 }, (err, token) => {
+        //         if (err) throw err;
+        //         res.cookie('token', token, { httpOnly: true });
+        //         res.json({ token });
+        //     }
+        // );
+       
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server error');

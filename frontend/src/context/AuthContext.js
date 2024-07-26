@@ -4,9 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import Cookies from 'js-cookie';
+import 'react-toastify/dist/ReactToastify.css';
 
 const AuthContext = createContext();
-
+ 
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isRegister, setIsRegister] = useState(false);
@@ -19,11 +20,10 @@ export const AuthProvider = ({ children }) => {
     try {
       const response = await axios.post('/api/auth/login', loginData);
       console.log("login-response", response)
-      // Cookies.set('token', response.data.token);
-      Cookies.set('token', response.data.token, { path: '/' });
+      Cookies.set('token', response.data.token, { expires: 1, path: '/'}); 
+      //console.log("Token from Cookies:", Cookies.get('token', { path: '/' })  );
       setUser(response.data.user);
       setIsAuthenticated(true);
-      window.alert("login successfull") ; 
       navigate('/');
     } catch (error) {
       console.error('Login error', error);
@@ -31,8 +31,8 @@ export const AuthProvider = ({ children }) => {
   };
   
   const checkAuthStatus = async () => {
-    const token = Cookies.get('token'); 
-     console.log("token",token);
+    const token = Cookies.get('token');   // undefined
+     console.log("get-token",token);
     if (token) {
       try {
         const response = await axios.get('/api/auth/me', {
@@ -62,8 +62,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const response = await axios.post('/api/auth/register', registerData);
       console.log("register-response", response)
-      // Cookies.set('token', response.data.user);
-      Cookies.set('token', response.data.token, { path: '/' });
+      Cookies.set('token', response.data.token, { expires: 1, path: '/'}); 
       setUser(response.data.token);
       setIsAuthenticated(true);
       setIsRegister(true)
@@ -75,7 +74,6 @@ export const AuthProvider = ({ children }) => {
 
 
   const logout = () => {
-    // Cookies.remove('token');
     Cookies.remove('token', { path: '/' });
     setUser(null);
     setIsAuthenticated(false);

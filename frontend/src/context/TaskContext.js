@@ -1,12 +1,13 @@
-import React from 'react';
-import  { createContext, useContext, useState , useEffect} from "react" ;
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
+import Cookies from 'js-cookie';
 
 const TaskContext = createContext();
 
 export const TaskProvider = ({ children }) => {
-  const [tasks, setTasks] = useState([]);
+  const [tasks, setTasks] = useState([]); 
+   console.log("tasks",tasks);
 
   const columns = [
     { id: 'todo', name: 'To Do' },
@@ -14,18 +15,49 @@ export const TaskProvider = ({ children }) => {
     { id: 'done', name: 'Done' },
   ];
 
-  // useEffect(() => {
-  //   const fetchTasks = async () => {
-  //     const response = await axios.get('/api/tasks'); 
-  //       console.log("add-task" , response);
-  //     setTasks(response.data);
-  //   };
-  //   fetchTasks();
-  // }, [tasks]);
+  const fetchTasks = async () => {
+   const token = Cookies.get('token', { path: '/' }) 
+   console.log("Token from Cookies: fetch task", token);
+    try {
+      const response = await axios.get('/api/tasks',{
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      if (response.data && response.data.length > 0) {
+        setTasks(response.data);
+      } else {
+        setTasks([]); 
+      }
+    } catch (error) {
+      console.error('Failed to fetch tasks', error);
+      setTasks([]);
+    }
+  };
+
+  useEffect(() => {
+    fetchTasks();
+  }, []);
+
 
   const addTask = async (task) => {
-    const response = await axios.post('/api/tasks', task);
-    setTasks([...tasks, response.data]);
+   const token = Cookies.get('token', { path: '/' }) 
+   if (!token) {
+    console.error('No token found in cookies');
+    return;
+  }
+    try {
+      const response = await axios.post('/api/tasks', task,{
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      //console.log("Addtask-response",response);
+      setTasks([...tasks, response.data]);
+    } catch (error) {
+      console.error('Failed to add task', error);
+    }
   };
 
   const moveTask = (taskId, columnId) => {
@@ -48,5 +80,3 @@ TaskProvider.propTypes = {
 export const useTasks = () => {
   return useContext(TaskContext);
 };
-
-

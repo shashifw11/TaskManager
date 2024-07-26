@@ -2,29 +2,40 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 const TaskForm = ({ columnId, addTask }) => {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
+  const [task, setTask] = useState({
+    title: "",
+    description: ""
+  });
 
   const handleSubmit = e => {
     e.preventDefault();
-    addTask({ title, description, columnId });
-    setTitle('');
-    setDescription('');
+    addTask({ title: task.title, description: task.description, columnId }); 
+    setTask({
+      title: "",
+      description: ""
+    });
+  };
+  
+  const handleChange = (e) => {
+    const { name, value } = e.target; 
+    setTask(prev => ({ ...prev, [name]: value }));
   };
 
   return (
     <form onSubmit={handleSubmit} className="mb-4">
       <input
         type="text"
-        value={title}
-        onChange={e => setTitle(e.target.value)}
+        value={task.title}
+        name="title"
+        onChange={handleChange}
         placeholder="Title"
         className="p-2 border rounded mb-2 w-full"
         required
       />
       <textarea
-        value={description}
-        onChange={e => setDescription(e.target.value)}
+        value={task.description}
+        name="description"
+        onChange={handleChange}
         placeholder="Description"
         className="p-2 border rounded mb-2 w-full"
       />
@@ -41,7 +52,3 @@ TaskForm.propTypes = {
 };
 
 export default TaskForm;
-
-
-
-

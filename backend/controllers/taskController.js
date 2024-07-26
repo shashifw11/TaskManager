@@ -1,9 +1,12 @@
 const Task = require('../models/Task');
 
 exports.createTask = async (req, res) => {
-    const { title, description, status } = req.body;
+    const { title, description, columnId} = req.body; 
+    //console.log("taskCreate-req.body", req.body); //working after AUthMiddleware work completed
+    //console.log("req.user.id",req.user.id);
     try {
-        const task = new Task({ title, description, status, userId: req.user.id });
+        const task = new Task({ title, description, column:columnId, userId: req.user.id }); 
+      // console.log("createdTask" , task);
         await task.save();
         res.status(201).json(task);
     } catch (err) {
@@ -11,7 +14,8 @@ exports.createTask = async (req, res) => {
     }
 };
 
-exports.getTasks = async (req, res) => {
+exports.getTasks = async (req, res) => { 
+    console.log("taskget-req.body", req.body);
     try {
         const tasks = await Task.find({ userId: req.user.id });
         res.json(tasks);
@@ -21,7 +25,8 @@ exports.getTasks = async (req, res) => {
 };
 
 exports.updateTask = async (req, res) => {
-    const { title, description, status } = req.body;
+    const { title, description, status } = req.body; 
+    console.log("taskUpdate-req.body", req.body);
     try {
         const task = await Task.findById(req.params.id);
         if (!task) {
@@ -37,7 +42,8 @@ exports.updateTask = async (req, res) => {
     }
 };
 
-exports.deleteTask = async (req, res) => {
+exports.deleteTask = async (req, res) => { 
+    console.log("taskdelete-req.body", req.body);
     try {
         const task = await Task.findById(req.params.id);
         if (!task) {

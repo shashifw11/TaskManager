@@ -5,8 +5,9 @@ import { useTasks } from '../context/TaskContext';
 import PropTypes from 'prop-types';
 
 const Column = ({ column }) => {
+  
   const { tasks, addTask, moveTask } = useTasks();
-
+   //console.log("column-task",tasks);
   const handleDrop = e => {
     const taskId = e.dataTransfer.getData('taskId');
     moveTask(taskId, column.id);
@@ -23,9 +24,11 @@ const Column = ({ column }) => {
       onDragOver={handleDragOver}
     >
       <h2 className="text-xl font-bold mb-4">{column.name}</h2>
+
       <TaskForm columnId={column.id} addTask={addTask} />
+      
       {tasks
-        .filter(task => task.columnId === column.id)
+        .filter(task => task.column === column.id)
         .map(task => (
           <TaskCard key={task.id} task={task} />
         ))}
