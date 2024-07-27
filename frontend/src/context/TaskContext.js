@@ -93,13 +93,22 @@ export const TaskProvider = ({ children }) => {
   };
   
 
-  const editTask = async() => {
-  
-  }  
-
+  const updateTask = async (updatedTask) => {
+    const token = Cookies.get('token');
+    try {
+      const response = await axios.put(`/api/tasks/${updatedTask._id}`, updatedTask, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      setTasks(tasks.map(task => (task._id === updatedTask._id ? response.data : task)));
+    } catch (error) {
+      console.error('Failed to update task', error);
+    }
+  };
 
   return (
-    <TaskContext.Provider value={{ tasks, columns, addTask, moveTask , editTask , deleteTask}}>
+    <TaskContext.Provider value={{ tasks, columns, addTask, moveTask , updateTask , deleteTask}}>
       {children}
     </TaskContext.Provider>
   );
