@@ -7,7 +7,6 @@ import Dashboard from './pages/Dashboard';
 import PrivateRoute from './utils/PrivateRoute';
 import { AuthProvider } from './context/AuthContext';
 import { TaskProvider } from './context/TaskContext';
-import { ToastContainer, toast } from 'react-toastify';
 import './styles/tailwind.css'; 
 import TaskDetails from './components/TaskDetails/TaskDetails';
 
