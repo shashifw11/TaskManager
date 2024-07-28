@@ -1,23 +1,8 @@
 {
-  "projects": {
-    "frontend": {
-      "root": "frontend",
-      "builds": [
-        {
-          "src": "frontend/build",
-          "use": "@vercel/next"
-        }
-      ]
-    },
-    "backend": {
-      "root": "backend",
-      "builds": [
-        {
-          "src": "backend/server.js",
-          "use": "@vercel/node"
-        }
-      ]
-    }
-  }
-  
+  "rewrites":[
+       {
+        "source" : "/(.*)",
+        "destination" : "/index.html"
+       }
+  ]
 }
