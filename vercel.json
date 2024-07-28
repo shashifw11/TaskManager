@@ -4,7 +4,7 @@
       "root": "frontend",
       "builds": [
         {
-          "src": "frontend/package.json",
+          "src": "frontend/build",
           "use": "@vercel/next"
         }
       ]
@@ -18,30 +18,6 @@
         }
       ]
     }
-  },
-  
-  "builds": [
-    {
-      "src": "frontend/package.json",
-      "use": "@vercel/next"
-    },
-    {
-      "src": "backend/server.js",
-      "use": "@vercel/node"
-    },
-    {
-      "buildCommand": "next build"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "backend/api/$1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "frontend/$1"
-    }
-  ]
+  }
   
 }
