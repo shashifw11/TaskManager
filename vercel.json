@@ -1,42 +1,5 @@
 {
-  "projects": {
-    "frontend": {
-      "root": "frontend",
-      "builds": [
-        {
-          "src": "frontend/package.json",
-          "use": "@vercel/next"
-        }
-      ]
-    },
-    "backend": {
-      "root": "backend",
-      "builds": [
-        {
-          "src": "backend/server.js",
-          "use": "@vercel/node"
-        }
-      ]
-    }
-  },
-  "builds": [
-    {
-      "src": "frontend/package.json",
-      "use": "@vercel/next"
-    },
-    {
-      "src": "backend/server.js",
-      "use": "@vercel/node"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "backend/api/$1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "frontend/$1"
-    }
+  "rewrites" : [
+    {"source" : "/(.*)", "destination" : "/"}
   ]
 }
