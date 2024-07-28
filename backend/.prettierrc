@@ -1,0 +1,15 @@
+{
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true
+    },
+    "cSpell.language": "en",
+    "cSpell.enabledLanguageIds": [
+      "javascript",
+      "typescript",
+      "javascriptreact",
+      "typescriptreact",
+      "json"
+    ]
+  }
+  
