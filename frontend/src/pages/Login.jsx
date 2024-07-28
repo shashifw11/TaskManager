@@ -20,6 +20,8 @@ const Login = () => {
   };
 
   const handleChange = (e) => {
+      console.log("e.target.value",e.target.value);
+      
     const { name, value } = e.target;
     setList((prev) => ({ ...prev, [name]: value }))
   }
