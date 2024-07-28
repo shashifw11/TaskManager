@@ -27,7 +27,8 @@ app.use(passport.session());
 
 app.use(
   cors({
-    origin: process.env.CLIENT_URL,
+    origin : ["https://task-manager-5ok3p5uic-shashifw11s-projects.vercel.app/"],
+    // origin: process.env.CLIENT_URL,
     methods: 'GET,POST,PUT,DELETE',
     credentials: true,
   })
