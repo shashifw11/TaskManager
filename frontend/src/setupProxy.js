@@ -8,9 +8,9 @@ module.exports = function(app) {
     createProxyMiddleware({
       target: API_BASE_URL,
       changeOrigin: true,
-      pathRewrite: {
-        '^/api': '', // Remove '/api' prefix when forwarding to the backend
-      },
+      // pathRewrite: {
+      //   '^/api': '', // Remove '/api' prefix when forwarding to the backend
+      // },
     })
   );
 };
