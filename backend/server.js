@@ -7,9 +7,11 @@ const cors = require("cors");
 const passport = require("passport");
 const cookieSession = require("cookie-session");
 const session = require("express-session");
+const path = require('path');
 require("./passport");
 
 const app = express();
+app.use(express.static('public'));
 
 connectDB();
 
@@ -47,6 +49,16 @@ app.use(passport.session());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/tasks", taskRoutes);
+
+
+// // Serve static files (if applicable)
+// app.use(express.static(path.join(__dirname, 'public')));
+
+// // Catch-all route to serve frontend (if applicable)
+// app.get('*', (req, res) => {
+//     res.sendFile(path.resolve(__dirname, 'public', 'index.html'));
+// });
+
 
 const PORT = process.env.PORT || 5000;
 
