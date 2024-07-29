@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import Cookies from 'js-cookie';
 import 'react-toastify/dist/ReactToastify.css';
 
+const API_BASE_URL = process.env.REACT_APP_API_URL;
 
 const AuthContext = createContext();
  
@@ -13,7 +14,7 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isRegister, setIsRegister] = useState(false);
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true); // New loading state
+  const [loading, setLoading] = useState(true); 
 
   const navigate = useNavigate(); 
 
@@ -27,7 +28,7 @@ export const AuthProvider = ({ children }) => {
   const login = async (loginData) => { 
     checkAuthStatus()
     try {
-      const response = await axios.post('/api/auth/login', loginData);
+      const response = await axios.post(`${API_BASE_URL}/auth/login`, loginData);
       console.log("login-response", response)
       setToken(response.data.token)
       setUser(response.data.token);
@@ -39,11 +40,11 @@ export const AuthProvider = ({ children }) => {
   };
   
   const checkAuthStatus = async () => {
-    const token = Cookies.get('token');  // initially there is no token stored in cookies so request send without token
+    const token = Cookies.get('token');  
     console.log("get-token-from-cookies", token);
     if (token) {
       try {
-        const response = await axios.get('/api/auth/me', {
+        const response = await axios.get(`${API_BASE_URL}/auth/me`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -57,7 +58,7 @@ export const AuthProvider = ({ children }) => {
     } else {
       Cookies.remove('token', { path: '/' });
     }
-    setLoading(false); // Set loading to false after checking auth status
+    setLoading(false); 
   };
 
   useEffect(() => {
@@ -67,7 +68,9 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (registerData) => {
     try {
-      const response = await axios.post('/api/auth/register', registerData);
+      const response = await axios.post(`${API_BASE_URL}/auth/register` , registerData); 
+      // '/api/auth/register' 
+      //`${API_BASE_URL}/auth/register`
       console.log("register-response", response)
       setToken(response.data.token) 
       setUser(response.data.token);

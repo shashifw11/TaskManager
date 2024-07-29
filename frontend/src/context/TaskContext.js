@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import Cookies from 'js-cookie';
 import { useAuth } from './AuthContext';
 
+const API_BASE_URL = process.env.REACT_APP_API_URL;
+
 const TaskContext = createContext();
 
 export const TaskProvider = ({ children }) => {
@@ -23,7 +25,7 @@ export const TaskProvider = ({ children }) => {
    const token = Cookies.get('token', { path: '/' }) 
    console.log("Token from Cookies: fetch task", token);
     try {
-      const response = await axios.get('/api/tasks',{
+      const response = await axios.get(`${API_BASE_URL}/tasks`,{
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -54,7 +56,7 @@ export const TaskProvider = ({ children }) => {
     return;
   }
     try {
-      const response = await axios.post('/api/tasks', task,{
+      const response = await axios.post(`${API_BASE_URL}/tasks`, task,{
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -81,7 +83,7 @@ export const TaskProvider = ({ children }) => {
       return;
     }
     try {
-      await axios.delete(`/api/tasks/${id}`, {  
+      await axios.delete(`${API_BASE_URL}/tasks/${id}`, {  
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -96,7 +98,7 @@ export const TaskProvider = ({ children }) => {
   const updateTask = async (updatedTask) => {
     const token = Cookies.get('token');
     try {
-      const response = await axios.put(`/api/tasks/${updatedTask._id}`, updatedTask, {
+      const response = await axios.put(`${API_BASE_URL}/tasks/${updatedTask._id}`, updatedTask, {
         headers: {
           Authorization: `Bearer ${token}`
         }

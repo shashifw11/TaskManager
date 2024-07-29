@@ -38,7 +38,7 @@ app.use(session({
 
 
 app.use(cors({
-    origin: process.env.CLIENT_URL,
+    origin: process.env.CLIENT_URL || "https://task-manager-blue-two.vercel.app/",
     methods: "GET,POST,PUT,DELETE",
     credentials: true,
   })

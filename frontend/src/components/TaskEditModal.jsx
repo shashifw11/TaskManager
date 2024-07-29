@@ -11,7 +11,7 @@ const TaskEditModal = ({ task, isOpen, onClose }) => {
     await updateTask({ ...task, title, description });
     onClose();
   };
-
+  
   if (!isOpen) return null;
 
   return (

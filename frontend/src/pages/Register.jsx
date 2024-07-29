@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
+const API_BASE_URL = process.env.REACT_APP_API_URL;
+
+
 const Register = () => {
   const [list, setList] = useState({
     firstName: "",
@@ -29,7 +32,7 @@ const Register = () => {
   };
 
   const handleGoogleSignup = () => {
-   window.location.href = 'http://localhost:5000/api/auth/google';
+   window.location.href = `${API_BASE_URL}/auth/google`;
   };
 
 
