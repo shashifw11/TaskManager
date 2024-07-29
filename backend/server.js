@@ -15,6 +15,15 @@ app.use(express.static('public'));
 
 connectDB();
 
+const corsConfig = {
+  origin: process.env.CLIENT_URL || "https://task-manager-blue-two.vercel.app/",
+  methods: ["GET","POST","PUT","DELETE"],
+  credentials: true,
+}
+
+app.options("",cors(corsConfig))
+app.use(cors(corsConfig));
+
 app.use(express.json({ extended: false }));
 app.use(express.urlencoded({ extended: true }));
 
@@ -35,14 +44,6 @@ app.use(session({
       maxAge: 24 * 60 * 60 * 1000 
   }
 }));
-
-
-app.use(cors({
-    origin: process.env.CLIENT_URL || "https://task-manager-blue-two.vercel.app/",
-    methods: "GET,POST,PUT,DELETE",
-    credentials: true,
-  })
-);
 
 app.use(passport.initialize());
 app.use(passport.session());
