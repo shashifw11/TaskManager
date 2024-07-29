@@ -9,6 +9,7 @@
     "concurrently": "^8.2.2"
   },
   "dependencies": {
-    "config": "^3.3.12"
+    "config": "^3.3.12",
+    "express-session": "^1.18.0"
   }
 }
