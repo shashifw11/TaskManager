@@ -8,8 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const API_BASE_URL = process.env.REACT_APP_API_URL;
 
-const AuthContext = createContext();
- 
+const AuthContext = createContext(); 
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isRegister, setIsRegister] = useState(false);
