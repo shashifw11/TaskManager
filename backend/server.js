@@ -16,7 +16,8 @@ const app = express();
 app.use(express.static(path.join(__dirname, 'public')));
 
 const dbUri = config.get('db.uri');
-connectDB(dbUri);
+//connectDB(dbUri);
+connectDB();
 
 const corsConfig = {
   origin: config.get('clientURL'),
