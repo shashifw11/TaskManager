@@ -67,7 +67,7 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (registerData) => {
     try {
-      const response = await axios.post(`${API_BASE_URL}/api/auth/register` || "http://localhost:5000/api/auth/register", registerData); 
+      const response = await axios.post("https://task-manager-77dq7t0jp-shashifw11s-projects.vercel.app/auth/register", registerData); 
       // '/api/auth/register' 
       //`${API_BASE_URL}/auth/register`
       console.log("register-response", response)
