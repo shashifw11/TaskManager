@@ -27,7 +27,7 @@ export const AuthProvider = ({ children }) => {
   const login = async (loginData) => { 
     checkAuthStatus()
     try {
-      const response = await axios.post(`${API_BASE_URL}/auth/login`, loginData);
+      const response = await axios.post( `${API_BASE_URL}/api/auth/login` || "http://localhost:5000/api/aith/login", loginData);
       console.log("login-response", response)
       setToken(response.data.token)
       setUser(response.data.token);
@@ -43,7 +43,7 @@ export const AuthProvider = ({ children }) => {
     console.log("get-token-from-cookies", token);
     if (token) {
       try {
-        const response = await axios.get(`${API_BASE_URL}/auth/me`, {
+        const response = await axios.get(`${API_BASE_URL}/api/auth/me` || "http://localhost:5000/api/auth/me", {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -67,7 +67,7 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (registerData) => {
     try {
-      const response = await axios.post(`${API_BASE_URL}/auth/register` , registerData); 
+      const response = await axios.post(`${API_BASE_URL}/api/auth/register` || "http://localhost:5000/api/auth/register", registerData); 
       // '/api/auth/register' 
       //`${API_BASE_URL}/auth/register`
       console.log("register-response", response)

@@ -12,12 +12,12 @@ const path = require('path');
 require("./passport");
 
 const app = express();
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
 
 connectDB();
 
 const corsConfig = {
-  origin: process.env.CLIENT_URL || "https://task-manager-blue-two.vercel.app/",
+  origin: process.env.CLIENT_URL || "http://localhost:3000",
   methods: ["GET","POST","PUT","DELETE"],
   credentials: true,
 }
@@ -46,9 +46,9 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.get("/",(req,res)=>{
-  res.json({message:"Hello world from backend"})
-})
+// app.get("/",(req,res)=>{
+//   res.json({message:"Hello world from backend"})
+// })
 
 app.use("/api/auth", authRoutes);
 app.use("/api/tasks", taskRoutes);
