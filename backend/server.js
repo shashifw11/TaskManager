@@ -1,4 +1,3 @@
-require("dotenv").config();
 const express = require("express");
 const authRoutes = require("./routes/authRoutes");
 const taskRoutes = require("./routes/taskRoutes");
@@ -10,17 +9,21 @@ const cookieSession = require("cookie-session");
 const session = require("express-session");
 const path = require('path');
 require("./passport");
+require("dotenv").config();
+const config = require('config');
 
 const app = express();
 app.use(express.static(path.join(__dirname, 'public')));
 
-connectDB();
+const dbUri = config.get('db.uri');
+connectDB(dbUri);
 
 const corsConfig = {
-  origin: process.env.CLIENT_URL || "http://localhost:3000",
-  methods: ["GET","POST","PUT","DELETE"],
+  origin: config.get('clientURL'),
+  methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,
-}
+};
+
 app.use(cors(corsConfig));
 app.use(express.json({ extended: false }));
 app.use(express.urlencoded({ extended: true }));
@@ -34,13 +37,19 @@ app.use(cookieSession({
   })
 );
 
+
 app.use(session({
-  secret: process.env.SESSION_SECRET,
+  secret: config.get('sessionSecret'),
   resave: false,
   saveUninitialized: false,
-  cookie: {
-      maxAge: 24 * 60 * 60 * 1000 
-  }
+  // store: MongoStore.create({
+  //   mongoUrl: dbUri,
+  //   collectionName: 'sessions',
+  //   ttl: 24 * 60 * 60 // 1 day
+  // }),
+  // cookie: {
+  //   maxAge: 24 * 60 * 60 * 1000 
+  // }
 }));
 
 app.use(passport.initialize());
@@ -53,6 +62,11 @@ app.use(passport.session());
 app.use("/api/auth", authRoutes);
 app.use("/api/tasks", taskRoutes);
 app.use("/api/users", userRoutes);
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
+});
 
 const PORT = process.env.PORT || 5000;
 

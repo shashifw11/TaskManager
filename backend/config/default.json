@@ -1,3 +1,12 @@
 {
-    "jwtSecret": "yourSecretKey"
+  "jwtSecret": "your_jwt_secret_key",
+  "db": {
+    "uri": "mongodb+srv://shekharshashi735:7l3VxPldVfkKmLrp@cluster0.txcufuf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+  },
+  "sessionSecret": "your_session_secret_key",
+  "clientURL": "https://task-manager-blue-two.vercel.app",
+  "googleAuth": {
+    "clientID": "662750520285-njonf792di8hu4bumrm9hqrd81uj5on4.apps.googleusercontent.com",
+    "clientSecret": "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"
   }
+}
