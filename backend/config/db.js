@@ -4,7 +4,8 @@ const config = require("config");
 
 const connectDB = async () => {
   try {
-    const dbURI = config.get("db.uri");
+    const dbURI = config.get("db.uri"); 
+    // console.log("dbURI",dbURI);
     await mongoose.connect(dbURI, {
       // useNewUrlParser: true,
       // useUnifiedTopology: true,
