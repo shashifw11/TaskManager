@@ -48,6 +48,10 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.get("/",(req,res)=>{
+  res.json({message:"Hello world from backend"})
+})
+
 app.use("/api/auth", authRoutes);
 app.use("/api/tasks", taskRoutes);
 

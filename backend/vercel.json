@@ -1,7 +1,20 @@
 {
   "version": 2,
-  "name" : "backend",
-  "builds": [{"src": "server.js", "use": "@vercel/node"}],
-  "routes": [ {"src": "/api/(.*)","dest": "/api/$1" , "methods": ["GET","POST","PUT","DELETE"]},
-              { "src": "/(.*)","dest": "/server.js" }]
+  "builds": [
+    {
+      "src": "./server.js", 
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [ 
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/$1" , 
+      "methods": ["GET","POST","PUT","DELETE"]
+    },
+   { 
+    "src": "/(.*)",
+    "dest": "/server.js" 
+    }
+  ]
 }
